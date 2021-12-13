@@ -1,0 +1,40 @@
+.container {
+    background-color: #ebebeb;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 300px;
+    height: 350px;
+    border-radius: 15px;
+    box-shadow: 10px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    cursor: pointer;
+    transition: all .3s;
+    position: relative;
+}
+
+.container:hover {
+    transform: scale(104%);
+}
+
+.imageContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.name {
+    font-size: 2.5rem;
+    text-transform: capitalize;
+    color: rgb(95, 95, 95);
+}
+
+.pokeNum {
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: rgb(95, 95, 95);
+    position: absolute;
+    top: -10px;
+    right: 10px;
+}
