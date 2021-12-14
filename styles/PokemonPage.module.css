@@ -1,0 +1,38 @@
+.container {
+    width: 1280px;
+    padding-top: 50px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.card {
+    height: 500px;
+    width: 400px;
+    background-color: #EBEBEB;
+    border-radius: 20px;
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: all .4s;
+}
+
+.card:hover {
+    transform: scale(102%);
+}
+
+.name {
+    font-size: 3.5rem;
+    text-transform: capitalize;
+    color: rgb(95, 95, 95);
+}
+
+.info {
+    text-align: left;
+    width: 60%;
+}
+
+.title {
+    font-size: 4.5rem;
+    text-transform: capitalize;
+    color: rgb(20, 20, 20);
+}

@@ -4,7 +4,9 @@ import Image from "next/image"
 import SearchBar from '../components/SearchBar'
 
 
+
 const Header = () => {
+
     return (
         <>
         <div className={styles.container}>

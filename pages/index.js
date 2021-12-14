@@ -3,11 +3,14 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import {FaSortAmountUpAlt, FaSortAmountDownAlt, FaRandom, FaRedo} from 'react-icons/fa'
 import PokemonCard from '../components/PokemonCard'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
+
+import { OffsetContext } from '../components/Layout'
 
 export default function Home({data, test}) {
   const [pokemon, setPokemon] = useState(data)
-  const [offset, setOffset] = useState(0)
+  const {offset, setOffset} = useContext(OffsetContext)
+  // const [offset, setOffset] = useState(0)
   
   useEffect(() => {
       async function getPokemon(offset) {
