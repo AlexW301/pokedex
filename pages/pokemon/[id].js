@@ -2,8 +2,13 @@ import Image from "next/image";
 import styles from "../../styles/PokemonPage.module.css"
 
 const Pokemon = ({data, speciesData, evolutionData}) => {
-    console.log(data)
     console.log(evolutionData)
+    if(evolutionData.chain.evolves_to[0]) {
+        console.log(evolutionData.chain.evolves_to[0].species.name)
+    }
+    if(evolutionData.chain.evolves_to[0].evolves_to[0]) {
+        console.log(evolutionData.chain.evolves_to[0].evolves_to[0].species.name)
+    }
     const types = data.types.map((el) => el.type.name)
     return (
         <div className={styles.container}>
@@ -17,6 +22,12 @@ const Pokemon = ({data, speciesData, evolutionData}) => {
                 {types.map((el) => (
                     <p key={el}>{el}   </p>
                 ))}
+                {evolutionData.chain.evolves_to[0] && (
+                    <p>{evolutionData.chain.evolves_to[0].species.name}</p>
+                )}
+                {evolutionData.chain.evolves_to[0].evolves_to[0] && (
+                    <p>{evolutionData.chain.evolves_to[0].evolves_to[0].species.name}</p>
+                )}
             </div>
             
         </div>
