@@ -22,6 +22,7 @@ const Pokemon = ({data, speciesData, evolutionData}) => {
                 {types.map((el) => (
                     <p key={el}>{el}   </p>
                 ))}
+                {/* Add eveloves from for full evolution chain */}
                 {evolutionData.chain.evolves_to[0] && (
                     <p>{evolutionData.chain.evolves_to[0].species.name}</p>
                 )}
