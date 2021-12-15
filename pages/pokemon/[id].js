@@ -1,63 +1,202 @@
 import Image from "next/image";
-import styles from "../../styles/PokemonPage.module.css"
+import styles from "../../styles/PokemonPage.module.css";
+import { useEffect, useState } from "react";
 
-const Pokemon = ({data, speciesData, evolutionData}) => {
-    console.log(evolutionData)
-    if(evolutionData.chain.evolves_to[0]) {
-        console.log(evolutionData.chain.evolves_to[0].species.name)
-    }
-    if(evolutionData.chain.evolves_to[0].evolves_to[0]) {
-        console.log(evolutionData.chain.evolves_to[0].evolves_to[0].species.name)
-    }
-    const types = data.types.map((el) => el.type.name)
-    return (
-        <div className={styles.container}>
-            <div className={styles.card}>
-                <Image src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data.id}.png`} height={400} width={400} alt="pokemon" />
-                <h2 className={styles.name}>{data.name}</h2>
-            </div>
+const Pokemon = ({ data, speciesData, evolutionData, evOne }) => {
+  console.log(evolutionData)
 
-            <div className={styles.info}>
-                <h1 className={styles.title}>{data.name}</h1>
-                {types.map((el) => (
-                    <p key={el}>{el}   </p>
-                ))}
-                {/* Add eveloves from for full evolution chain */}
-                {evolutionData.chain.evolves_to[0] && (
-                    <p>{evolutionData.chain.evolves_to[0].species.name}</p>
-                )}
-                {evolutionData.chain.evolves_to[0].evolves_to[0] && (
-                    <p>{evolutionData.chain.evolves_to[0].evolves_to[0].species.name}</p>
-                )}
-            </div>
-            
-        </div>
-    )
-}
+  // Evolutions
+  const [formOne, setFormOne] = useState(null);
+  const [formTwo, setFormTwo] = useState(null);
+  const [formThree, setFormThree] = useState(null);
+
+  // Level Ups
+  const [levelUpOne, setLevelUpOne] = useState(null);
+  const [triggerOne, setTriggerOne] = useState(null);
+
+  const [levelUpTwo, setLevelUpTwo] = useState(null);
+  const [triggerTwo, setTriggerTwo] = useState(null);
+
+
+  useEffect(() => {
+    const getEvolutionOne = async (id) => {
+      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+      const data = await res.json();
+      setFormOne(data);
+    };
+
+    const getEvolutionTwo = async (id) => {
+      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+      const data = await res.json();
+      setFormTwo(data);
+    };
+
+    const getEvolutionThree = async (id) => {
+      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+      const data = await res.json();
+      setFormThree(data);
+    };
+
+    if (evolutionData.chain.species.url) {
+      getEvolutionOne(evolutionData.chain.species.url.split("/")[6]);
+    }
+    if (evolutionData.chain.evolves_to[0]) {
+      getEvolutionTwo(
+        evolutionData.chain.evolves_to[0].species.url.split("/")[6]
+      );
+      //
+      //Get evolution requirments
+      const evoDetails = evolutionData.chain.evolves_to[0].evolution_details[0]
+      //filter through evo requirments for a true value
+      Object.keys(evoDetails).forEach(key => {
+          if(evoDetails[key]) {
+            if(key !== 'trigger') {
+                //console.log(key, evoDetails[key])
+                setLevelUpOne([key, evoDetails[key]])
+            }
+            if(key === 'trigger') {
+                //console.log(key, evoDetails[key])
+                setTriggerOne(evoDetails[key])
+            }
+          } 
+      })
+    console.log(levelUpOne, triggerOne)
+    //
+      if (evolutionData.chain.evolves_to[0].evolves_to[0]) {
+        getEvolutionThree(
+          evolutionData.chain.evolves_to[0].evolves_to[0].species.url.split(
+            "/"
+          )[6]
+        );
+        //
+      //Get evolution requirments
+      const evoDetails = evolutionData.chain.evolves_to[0].evolves_to[0].evolution_details[0]
+      //filter through evo requirments for a true value
+      Object.keys(evoDetails).forEach(key => {
+          if(evoDetails[key]) {
+            if(key !== 'trigger') {
+                //console.log(key, evoDetails[key])
+                setLevelUpTwo([key, evoDetails[key]])
+            }
+            if(key === 'trigger') {
+                //console.log(key, evoDetails[key])
+                setTriggerTwo(evoDetails[key])
+            }
+          } 
+      })
+    console.log(levelUpTwo, triggerTwo)
+    //
+      }
+    }
+  }, []);
+
+  const types = data.types.map((el) => el.type.name);
+  return (
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <Image
+          src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data.id}.png`}
+          height={400}
+          width={400}
+          alt="pokemon"
+        />
+        <h2 className={styles.name}>{data.name}</h2>
+      </div>
+
+      <div className={styles.info}>
+        <h1 className={styles.title}>{data.name}</h1>
+        {types.map((el) => (
+          <p key={el}>{el} </p>
+        ))}
+        {/* Evolutions */}
+        {formOne && (
+          <>
+            <p>{formOne.name}</p>
+            <Image
+              src={`${formOne.sprites.front_default}`}
+              height={150}
+              width={150}
+              alt="evolution"
+            />
+          </>
+        )}
+        {triggerOne && (
+            <p>Evolution trigger: {triggerOne.name}</p>
+        )}
+        {/* if levelupone contains an object Ex. held item, Onix */}
+        {levelUpOne && typeof levelUpOne !== 'number' && (
+            <>
+            <p>{levelUpOne[0]}</p>
+            <p>{levelUpOne[1].name}</p>
+            </>
+        )}
+        {/* check type of number!!! */}
+        {levelUpOne && typeof levelUpOne[1] === 'number' && (
+            <>
+            <p>{levelUpOne[1]}</p>
+            </>
+        )}
+        {formTwo && (
+          <>
+            <p>{formTwo.name}</p>
+            <Image
+              src={`${formTwo.sprites.front_default}`}
+              height={150}
+              width={150}
+              alt="evolution"
+            />
+          </>
+        )}
+        {triggerTwo && (
+            <p>Evolution trigger: {triggerTwo.name}</p>
+        )}
+        {/* if levelupone contains an object Ex. held item, Onix */}
+        {levelUpTwo && typeof levelUpTwo[1] !== 'number' && (
+            <>
+            <p>{levelUpTwo[0]}</p>
+            <p>{levelUpTwo[1].name}</p>
+            </>
+        )}
+        {levelUpTwo && typeof levelUpTwo[1] === 'number' (
+            <>
+            <p>{levelUpTwo[1]}</p>
+            </>
+        )}
+        {formThree && (
+          <>
+            <p>{formThree.name}</p>
+            <Image
+              src={`${formThree.sprites.front_default}`}
+              height={150}
+              width={150}
+              alt="evolution"
+            />
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export default Pokemon;
 
+export async function getServerSideProps({ query: { id } }) {
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+  const data = await res.json();
 
-export async function getServerSideProps({query: {id}}) {
-    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`)
-    const data = await res.json()
+  const species = data.species.url;
 
-    const species = data.species.url
+  const resSpecices = await fetch(`${species}`);
+  const speciesData = await resSpecices.json();
 
-    const resSpecices = await fetch(`${species}`)
-    const speciesData = await resSpecices.json()
+  const resEvolution = await fetch(`${speciesData.evolution_chain.url}`);
+  const evolutionData = await resEvolution.json();
 
-
-    const resEvolution = await fetch(`${speciesData.evolution_chain.url}`)
-    const evolutionData = await resEvolution.json()
-
-    console.log(evolutionData)
-    
-    return {
-        props: {
-            data,
-            speciesData,
-            evolutionData
-        }
-    }
+  return {
+    props: {
+      data,
+      speciesData,
+      evolutionData,
+    },
+  };
 }

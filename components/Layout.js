@@ -4,7 +4,7 @@ import React, {useState} from 'react'
 export const OffsetContext = React.createContext()
 
 const Layout = ({children}) => {
-    const [offset, setOffset] = useState(10)
+    const [offset, setOffset] = useState(0)
     return (
         <>
         <OffsetContext.Provider value={{offset, setOffset}}>
