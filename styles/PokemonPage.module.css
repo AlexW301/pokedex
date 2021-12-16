@@ -37,6 +37,7 @@
 
 .card:hover {
     transform: scale(102%);
+    background-color: #e0e0e0;
 }
 
 .name {
