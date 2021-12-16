@@ -1,9 +1,11 @@
 import Image from "next/image";
 import styles from "../../styles/PokemonPage.module.css";
 import { useEffect, useState } from "react";
+import { FaAngleDoubleRight } from "react-icons/fa";
+import Link from "next/link";
 
 const Pokemon = ({ data, speciesData, evolutionData, evOne }) => {
-  console.log(evolutionData)
+  console.log(evolutionData);
 
   // Evolutions
   const [formOne, setFormOne] = useState(null);
@@ -16,7 +18,6 @@ const Pokemon = ({ data, speciesData, evolutionData, evOne }) => {
 
   const [levelUpTwo, setLevelUpTwo] = useState(null);
   const [triggerTwo, setTriggerTwo] = useState(null);
-
 
   useEffect(() => {
     const getEvolutionOne = async (id) => {
@@ -46,22 +47,22 @@ const Pokemon = ({ data, speciesData, evolutionData, evOne }) => {
       );
       //
       //Get evolution requirments
-      const evoDetails = evolutionData.chain.evolves_to[0].evolution_details[0]
+      const evoDetails = evolutionData.chain.evolves_to[0].evolution_details[0];
       //filter through evo requirments for a true value
-      Object.keys(evoDetails).forEach(key => {
-          if(evoDetails[key]) {
-            if(key !== 'trigger') {
-                //console.log(key, evoDetails[key])
-                setLevelUpOne([key, evoDetails[key]])
-            }
-            if(key === 'trigger') {
-                //console.log(key, evoDetails[key])
-                setTriggerOne(evoDetails[key])
-            }
-          } 
-      })
-    console.log(levelUpOne, triggerOne)
-    //
+      Object.keys(evoDetails).forEach((key) => {
+        if (evoDetails[key]) {
+          if (key !== "trigger") {
+            //console.log(key, evoDetails[key])
+            setLevelUpOne([key, evoDetails[key]]);
+          }
+          if (key === "trigger") {
+            //console.log(key, evoDetails[key])
+            setTriggerOne(evoDetails[key]);
+          }
+        }
+      });
+      console.log(levelUpOne, triggerOne);
+      //
       if (evolutionData.chain.evolves_to[0].evolves_to[0]) {
         getEvolutionThree(
           evolutionData.chain.evolves_to[0].evolves_to[0].species.url.split(
@@ -69,23 +70,24 @@ const Pokemon = ({ data, speciesData, evolutionData, evOne }) => {
           )[6]
         );
         //
-      //Get evolution requirments
-      const evoDetails = evolutionData.chain.evolves_to[0].evolves_to[0].evolution_details[0]
-      //filter through evo requirments for a true value
-      Object.keys(evoDetails).forEach(key => {
-          if(evoDetails[key]) {
-            if(key !== 'trigger') {
-                //console.log(key, evoDetails[key])
-                setLevelUpTwo([key, evoDetails[key]])
+        //Get evolution requirments
+        const evoDetails =
+          evolutionData.chain.evolves_to[0].evolves_to[0].evolution_details[0];
+        //filter through evo requirments for a true value
+        Object.keys(evoDetails).forEach((key) => {
+          if (evoDetails[key]) {
+            if (key !== "trigger") {
+              //console.log(key, evoDetails[key])
+              setLevelUpTwo([key, evoDetails[key]]);
             }
-            if(key === 'trigger') {
-                //console.log(key, evoDetails[key])
-                setTriggerTwo(evoDetails[key])
+            if (key === "trigger") {
+              //console.log(key, evoDetails[key])
+              setTriggerTwo(evoDetails[key]);
             }
-          } 
-      })
-    console.log(levelUpTwo, triggerTwo)
-    //
+          }
+        });
+        console.log(levelUpTwo, triggerTwo);
+        //
       }
     }
   }, []);
@@ -108,71 +110,97 @@ const Pokemon = ({ data, speciesData, evolutionData, evOne }) => {
         {types.map((el) => (
           <p key={el}>{el} </p>
         ))}
+
+        {/**************** EVOLUTION CONTAINER **********************/}
+        <h2 className={styles.evolutionTree}>Evolution Tree</h2>
+        <div className={styles.evolutionSection}>
+          <div className={styles.evSlotOne}>
+            {formOne && (
+              <>
+              <Link href={`/pokemon/${formOne.id}`}>
+                <Image
+                  src={`${formOne.sprites.front_default}`}
+                  height={150}
+                  width={150}
+                  alt="evolution"
+                  className={styles.sprite}
+                />
+                </Link>
+                <div className={styles.evDetails}>
+                  <h3>{formOne.name}</h3>
+                  {triggerOne && <p>Trigger: {triggerOne.name}</p>}
+                  {/* if levelupone contains an object Ex. held item, Onix */}
+                  {levelUpOne && typeof levelUpOne !== "number" && (
+                    <>
+                      <p>{levelUpOne[0]}</p>
+                      <p>{levelUpOne[1].name}</p>
+                    </>
+                  )}
+                  {/* check type of number!!! */}
+                  {levelUpOne && typeof levelUpOne[1] === "number" && (
+                    <>
+                      <p>{levelUpOne[1]}</p>
+                    </>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
+
+          <div className={styles.evSlotTwo}>
+            {formTwo && (
+              <>
+              <FaAngleDoubleRight className={styles.rightArrow} />
+              <Link href={`/pokemon/${formTwo.id}`}>
+                <Image
+                  src={`${formTwo.sprites.front_default}`}
+                  height={150}
+                  width={150}
+                  alt="evolution"
+                  className={styles.sprite}
+                />
+                </Link>
+                <h3 className={styles.formTwoName}>{formTwo.name}</h3>
+                <div className={styles.evDetails}>
+                  {triggerTwo && <p>Trigger: {triggerTwo.name}</p>}
+                  {/* if levelupone contains an object Ex. held item, Onix */}
+                  {levelUpTwo && typeof levelUpTwo[1] !== "number" && (
+                    <>
+                      <p>{levelUpTwo[0]}</p>
+                      <p>{levelUpTwo[1].name}</p>
+                    </>
+                  )}
+                  {levelUpTwo && typeof levelUpTwo[1] === "number" && (
+                    <>
+                      <p>{levelUpTwo[1]}</p>
+                    </>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
+
+          <div className={styles.evSlotThree}>
+            {formThree && (
+              <>
+                <FaAngleDoubleRight className={styles.rightArrow} />
+                <Link href={`/pokemon/${formThree.id}`}>
+                <Image
+                  src={`${formThree.sprites.front_default}`}
+                  height={150}
+                  width={150}
+                  alt="evolution"
+                  className={styles.sprite}
+                />
+                </Link>
+                <div className={styles.evDetails}>
+                <h3>{formThree.name}</h3>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
         {/* Evolutions */}
-        {formOne && (
-          <>
-            <p>{formOne.name}</p>
-            <Image
-              src={`${formOne.sprites.front_default}`}
-              height={150}
-              width={150}
-              alt="evolution"
-            />
-          </>
-        )}
-        {triggerOne && (
-            <p>Evolution trigger: {triggerOne.name}</p>
-        )}
-        {/* if levelupone contains an object Ex. held item, Onix */}
-        {levelUpOne && typeof levelUpOne !== 'number' && (
-            <>
-            <p>{levelUpOne[0]}</p>
-            <p>{levelUpOne[1].name}</p>
-            </>
-        )}
-        {/* check type of number!!! */}
-        {levelUpOne && typeof levelUpOne[1] === 'number' && (
-            <>
-            <p>{levelUpOne[1]}</p>
-            </>
-        )}
-        {formTwo && (
-          <>
-            <p>{formTwo.name}</p>
-            <Image
-              src={`${formTwo.sprites.front_default}`}
-              height={150}
-              width={150}
-              alt="evolution"
-            />
-          </>
-        )}
-        {triggerTwo && (
-            <p>Evolution trigger: {triggerTwo.name}</p>
-        )}
-        {/* if levelupone contains an object Ex. held item, Onix */}
-        {levelUpTwo && typeof levelUpTwo[1] !== 'number' && (
-            <>
-            <p>{levelUpTwo[0]}</p>
-            <p>{levelUpTwo[1].name}</p>
-            </>
-        )}
-        {levelUpTwo && typeof levelUpTwo[1] === 'number' (
-            <>
-            <p>{levelUpTwo[1]}</p>
-            </>
-        )}
-        {formThree && (
-          <>
-            <p>{formThree.name}</p>
-            <Image
-              src={`${formThree.sprites.front_default}`}
-              height={150}
-              width={150}
-              alt="evolution"
-            />
-          </>
-        )}
       </div>
     </div>
   );
