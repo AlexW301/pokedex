@@ -5,6 +5,10 @@
     display: flex;
     justify-content: space-between;
     position: relative;
+    overflow-x: hidden;
+    animation: fadeInUp;
+    animation-delay: 0;
+    animation-duration: 1s;
 }
 
 .id {
@@ -25,6 +29,9 @@
     box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: all .4s;
+    animation: fadeInUp;
+    animation-delay: 0;
+    animation-duration: 1s;
 }
 
 .card:hover {
@@ -139,4 +146,110 @@
     position: absolute;
     top: 35%;
     left: -15px;
+}
+
+@keyframes fadeInUp { 
+    0% { 
+        opacity: 0; 
+        transform: translateY(20px); 
+    } 
+    100% { 
+        opacity: 1; 
+        transform: translateY(0); 
+    } 
+} 
+
+@media screen and (max-width: 1300px) {
+    .container {
+        width: 100vw;
+        padding: 50px 30px 0;
+        overflow-x: hidden;
+    }
+
+    .info {
+        text-align: left;
+        width: 60%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media screen and (max-width: 1300px) {
+    .container {
+        width: 100vw;
+        padding: 130px 30px 0;
+        overflow-x: hidden;
+        flex-direction: column;
+        gap: 60px;
+        align-items: center;
+    }
+
+    .id {
+        top: 30px;
+        right: 100px;
+    }
+}
+
+@media screen and (max-width: 876px) {
+    .id {
+        right: 50px;
+    }
+}
+
+@media screen and (max-width: 675px) {
+
+    .info {
+        text-align: left;
+        width: 60%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .title {
+        font-size: 4.5rem;
+        text-transform: capitalize;
+        color: rgb(20, 20, 20);
+        margin: 0;
+    }
+    
+    .infoDetails {
+        width: 90vw;
+    }
+    
+    .pokeText {
+        font-size: 1.8rem;
+        width: 600px;
+        margin-bottom: 50px;
+        width: 100%;
+    }
+
+    /* EVOLUTION SECTION */
+
+.evolutionTree {
+    font-size: 2.5rem;
+}
+
+.evolutionSection {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+}
+
+
+    
+}
+
+@media screen and (max-width: 475px) {
+    .card {
+        height: 130%;
+        width: 95%;
+        background-color: #EBEBEB;
+        border-radius: 20px;
+        box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: all .4s;
+    }
 }

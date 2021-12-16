@@ -124,7 +124,7 @@ const Pokemon = ({ data, speciesData, evolutionData, evOne }) => {
           <div className={styles.evSlotOne}>
             {formOne && (
               <>
-                <Link href={`/pokemon/${formOne.id}`}>
+                <Link href={`/pokemon/${formOne.id}`} passHref>
                   <Image
                     src={`${formOne.sprites.front_default}`}
                     height={150}
@@ -158,7 +158,7 @@ const Pokemon = ({ data, speciesData, evolutionData, evOne }) => {
             {formTwo && (
               <>
                 <FaAngleDoubleRight className={styles.rightArrow} />
-                <Link href={`/pokemon/${formTwo.id}`}>
+                <Link href={`/pokemon/${formTwo.id}`} passHref>
                   <Image
                     src={`${formTwo.sprites.front_default}`}
                     height={150}
@@ -191,7 +191,7 @@ const Pokemon = ({ data, speciesData, evolutionData, evOne }) => {
             {formThree && (
               <>
                 <FaAngleDoubleRight className={styles.rightArrow} />
-                <Link href={`/pokemon/${formThree.id}`}>
+                <Link href={`/pokemon/${formThree.id}`} passHref>
                   <Image
                     src={`${formThree.sprites.front_default}`}
                     height={150}
