@@ -1,0 +1,31 @@
+.container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.developer {
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 1.3px;
+    color: #686868;
+    cursor: pointer;
+    margin: 0 0 10px 0;
+}
+
+.poweredBy {
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 1.3px;
+    color: #686868;
+    cursor: pointer;
+    margin: 0 0 15px 0;
+}
+
+.developer:hover,
+.poweredBy:hover {
+    color: #2c2c2c;
+}
+
