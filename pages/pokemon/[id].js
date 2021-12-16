@@ -5,7 +5,8 @@ import { FaAngleDoubleRight } from "react-icons/fa";
 import Link from "next/link";
 
 const Pokemon = ({ data, speciesData, evolutionData, evOne }) => {
-  console.log(evolutionData);
+  const id = data.id
+  const pokemoneDescription = speciesData.flavor_text_entries[0].flavor_text;
 
   // Evolutions
   const [formOne, setFormOne] = useState(null);
@@ -61,7 +62,7 @@ const Pokemon = ({ data, speciesData, evolutionData, evOne }) => {
           }
         }
       });
-      console.log(levelUpOne, triggerOne);
+      // console.log(levelUpOne, triggerOne);
       //
       if (evolutionData.chain.evolves_to[0].evolves_to[0]) {
         getEvolutionThree(
@@ -86,7 +87,7 @@ const Pokemon = ({ data, speciesData, evolutionData, evOne }) => {
             }
           }
         });
-        console.log(levelUpTwo, triggerTwo);
+        // console.log(levelUpTwo, triggerTwo);
         //
       }
     }
@@ -95,6 +96,7 @@ const Pokemon = ({ data, speciesData, evolutionData, evOne }) => {
   const types = data.types.map((el) => el.type.name);
   return (
     <div className={styles.container}>
+      <p className={styles.id}>#{id}</p>
       <div className={styles.card}>
         <Image
           src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data.id}.png`}
@@ -106,10 +108,15 @@ const Pokemon = ({ data, speciesData, evolutionData, evOne }) => {
       </div>
 
       <div className={styles.info}>
-        <h1 className={styles.title}>{data.name}</h1>
-        {types.map((el) => (
-          <p key={el}>{el} </p>
-        ))}
+        <div className={styles.infoDetails}>
+          <h1 className={styles.title}>{data.name}</h1>
+          <div className={styles.tagContainer}>
+          {types.map((el) => (
+            <p className={styles.typeTag} key={el}>{el} </p>
+          ))}
+          </div>
+          <p className={styles.pokeText}>{pokemoneDescription.split('')}</p>
+        </div>
 
         {/**************** EVOLUTION CONTAINER **********************/}
         <h2 className={styles.evolutionTree}>Evolution Tree</h2>
@@ -117,14 +124,14 @@ const Pokemon = ({ data, speciesData, evolutionData, evOne }) => {
           <div className={styles.evSlotOne}>
             {formOne && (
               <>
-              <Link href={`/pokemon/${formOne.id}`}>
-                <Image
-                  src={`${formOne.sprites.front_default}`}
-                  height={150}
-                  width={150}
-                  alt="evolution"
-                  className={styles.sprite}
-                />
+                <Link href={`/pokemon/${formOne.id}`}>
+                  <Image
+                    src={`${formOne.sprites.front_default}`}
+                    height={150}
+                    width={150}
+                    alt="evolution"
+                    className={styles.sprite}
+                  />
                 </Link>
                 <div className={styles.evDetails}>
                   <h3>{formOne.name}</h3>
@@ -150,15 +157,15 @@ const Pokemon = ({ data, speciesData, evolutionData, evOne }) => {
           <div className={styles.evSlotTwo}>
             {formTwo && (
               <>
-              <FaAngleDoubleRight className={styles.rightArrow} />
-              <Link href={`/pokemon/${formTwo.id}`}>
-                <Image
-                  src={`${formTwo.sprites.front_default}`}
-                  height={150}
-                  width={150}
-                  alt="evolution"
-                  className={styles.sprite}
-                />
+                <FaAngleDoubleRight className={styles.rightArrow} />
+                <Link href={`/pokemon/${formTwo.id}`}>
+                  <Image
+                    src={`${formTwo.sprites.front_default}`}
+                    height={150}
+                    width={150}
+                    alt="evolution"
+                    className={styles.sprite}
+                  />
                 </Link>
                 <h3 className={styles.formTwoName}>{formTwo.name}</h3>
                 <div className={styles.evDetails}>
@@ -185,16 +192,16 @@ const Pokemon = ({ data, speciesData, evolutionData, evOne }) => {
               <>
                 <FaAngleDoubleRight className={styles.rightArrow} />
                 <Link href={`/pokemon/${formThree.id}`}>
-                <Image
-                  src={`${formThree.sprites.front_default}`}
-                  height={150}
-                  width={150}
-                  alt="evolution"
-                  className={styles.sprite}
-                />
+                  <Image
+                    src={`${formThree.sprites.front_default}`}
+                    height={150}
+                    width={150}
+                    alt="evolution"
+                    className={styles.sprite}
+                  />
                 </Link>
                 <div className={styles.evDetails}>
-                <h3>{formThree.name}</h3>
+                  <h3>{formThree.name}</h3>
                 </div>
               </>
             )}

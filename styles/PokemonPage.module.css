@@ -4,6 +4,17 @@
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
+    position: relative;
+}
+
+.id {
+    position: absolute;
+    top: 0;
+    right: 100px;
+    font-size: 5rem;
+    font-weight: 600;
+    color: #6666669d;
+    letter-spacing: 2px;
 }
 
 .card {
@@ -39,6 +50,33 @@
     font-size: 4.5rem;
     text-transform: capitalize;
     color: rgb(20, 20, 20);
+    margin: 0;
+}
+
+.infoDetails {
+
+}
+
+.pokeText {
+    font-size: 1.8rem;
+    width: 600px;
+    margin-bottom: 50px;
+}
+
+.tagContainer {
+    display: flex;
+    gap: 7px;
+    margin-bottom: 35px;
+}
+
+.typeTag {
+    background-color: #cfcfcf;
+    width: fit-content;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-weight: 600;
+    color: #000;
+    margin: 0;
 }
 
 /* EVOLUTION SECTION */
